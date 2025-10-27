@@ -27,9 +27,9 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
+  \graphicspath{{C:/Users/Samuel Gan/OneDrive - Deakin University/PhD/Chapters/method-1/Paper/Figures/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
   % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
@@ -285,11 +285,11 @@
 %
 
 \author{Samuel Gan,~\IEEEmembership{Member,~IEEE,}
-        John~Doe,~\IEEEmembership{Fellow,~OSA,}
-        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
-\thanks{Insert thanks in the footnote for whoever about the .}% <-this % stops a space
-\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+    John~Doe,~\IEEEmembership{Fellow,~OSA,}
+    and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+    \thanks{Insert thanks in the footnote for whoever about the .}% <-this % stops a space
+    \thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
+    \thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -345,12 +345,12 @@
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
 \begin{abstract}
-The abstract goes here.
+    The abstract goes here.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEE, IEEEtran, journal, \LaTeX, paper, template.
+    IEEE, IEEEtran, journal, \LaTeX, paper, template.
 \end{IEEEkeywords}
 
 
@@ -371,32 +371,41 @@ IEEE, IEEEtran, journal, \LaTeX, paper, template.
 
 
 \section{Introduction}
-% The very first letter is a 2 line initial drop letter followed
-% by the rest of the first word in caps.
-% 
-% form to use if the first word consists of a single letter:
-% \IEEEPARstart{A}{demo} file is ....
-% 
-% form to use if you need the single drop letter followed by
-% normal text (unknown if ever used by the IEEE):
-% \IEEEPARstart{A}{}demo file is ....
-% 
-% Some journals put the first two words in caps:
-% \IEEEPARstart{T}{his demo} file is ....
-% 
-% Here we have the typical use of a "T" for an initial drop letter
-% and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{his} paper addresses [short problem description]. Motivation: explain why the problem matters in practice and research. Provide a succinct statement of challenges (e.g., occlusion, domain shift, limited annotations).
+
+\IEEEPARstart{T}{his} paper improves upon past methods of low-light semantic segmentation by improving upon preexisting models. Current models
+
+paper addresses [short problem description]. Motivation: explain why the problem matters in practice and research. Provide a succinct statement of challenges (e.g., occlusion, domain shift, limited annotations).
 These people are crazyyyy: \cite{weiDeepRetinexDecomposition2018}
 
+Sooo what does the paper address?
+- We are investigating low-light semantic segmentation.
+
+Why is this important?
+- Particularly for autonomous driving, low-light conditions are common and challenging for perception systems. Due to financial constraints, it is not always possible to equip vehicles with high-end sensors that perform well in low-light. Therefore, improving low-light semantic segmentation using standard cameras is crucial for safety and reliability.
+- Cameras serve a huge range of purposes on autonomous vehicles. They are used for object detection, lane detection, traffic sign recognition, and more. Semantic segmentation is an important task that massively assists the vehicle in understanding its surroundings and making informed safe decisions.
+
+How do we address the problem?
+- Existing works either focus on supervised or unsupervised methods. Unsupervised methods tend to underperform supervised ones due to the lack of labeled data. However, obtaining labeled data for low-light conditions is expensive and time-consuming.
+- Thus in this paper, we investigate supervised methods as they tend to perform better.
+- We propose a novel architecture with a novel training strategy to improve low-light semantic segmentation performance on standard benchmarks, such as NightCity, ACDC, and Dark Zurich.
+- This architecture hones in on the concept of hard regions within images. We hypothesise that what differentiates the low-light and normal-light images are the hard regions. Hard regions are areas within images that are particularly challenging to segment, such as areas with poor illumination, high noise, or complex textures. By focusing on these hard regions during training, we can improve the model's ability to handle low-light conditions effectively. Presently, NightLab \cite{dengNightLabDualLevelArchitecture2022} and InforMS \cite{wangInformativeClassesMatter2023} have explored similar ideas, but NightLab focuses on running two separate branches for easy and hard parts of the image, whilst InforMS focuses on varying the frequency of classes during training based on IoU performance.
+- Unlike existing works, we determine hard regions dynamically during training based on the performance of the model. We introduce a hard-region enhancement module that identifies and enhances these challenging areas, by applying
+
+
+
+
 \subsection{Problem statement}
+
 Formally define input and output (e.g., given image I, predict labels / masks / poses). Briefly state the evaluation goal and constraints.
 
 \subsection{Key contributions}
+Our contributions are as follows:
+
 \begin{itemize}
-  \item A short list (3--5 items) of the main contributions (novel model components, datasets, benchmarks, analysis).
-  \item New loss / architecture / training strategy and empirical gains on standard benchmarks.
-  \item Release of code / dataset (if applicable).
+    \item We propose a novel architecture that efficiently enhances hard regions in low-light images for improved semantic segmentation.
+    \item We introduce a training strategy that prioritises learning from hard regions, leading to better model performance in low-light conditions.
+    \item We conduct extensive experiments on standard benchmarks, demonstrating significant improvements over existing methods in low-light semantic segmentation.
+    \item Code is open source at: xxxxxxxxx
 \end{itemize}
 
 \subsection{Paper outline}
@@ -418,16 +427,60 @@ Organize the literature by categories (classical approaches, deep-learning archi
 \section{Method}
 \label{sec:method}
 \subsection{Overview}
-% Pipeline figure (Figure~1) and algorithmic summary.
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Methodology/training.png}
+    \caption{Training overview of the proposed method. The hard-region enhancement module identifies and enhances challenging areas in low-light images, which are then processed by the segmentation backbone to produce accurate semantic segmentation maps.}
+    \label{fig:training_overview}
+\end{figure*}
 
 \subsection{Model architecture}
+
+Currently still in testing, but the model can be in two possibles ways:
+1. Train DLV3+ on night images until satisfied. Then in the second stage, use DLV3+'s output to train the hard region enhancement module to identify and enhance harder regions. DLV3+ is either frozen or not frozen during this stage.
+2. Train DLV3+ and hard region enhancement module end-to-end from the start. The hard region enhancement module identifies hard regions based on DLV3+'s performance during training, and enhances them dynamically.
+2a. This way is a bit sus because the hard region enhancement module may not have a good idea of what hard regions are at the start of training.
+
+The essence of the model is the LLIE module is trained to identify hard regions by simultaneously training a hard region segmentation head that predicts a hard region mask based on an error map generated from the downstream segmentation network. This guides the decoder to learn to extract hard regions from the image and this is used to guide the LLIE head to focus on enhancing these regions.
+
 % Describe backbone, heads, any novel blocks, with layer sizes if relevant.
 
 \subsection{Loss functions}
 % Primary loss, auxiliary terms, weighting, and rationale.
+The primary loss used is the cross-entropy loss. The cross-entropy loss is given as:
+\begin{equation}
+    \mathcal{L}_{CE} = - \sum_{n=1}^{N} t_n \log(\hat{y}_n),
+\end{equation}
+where \(N\) is the number of classes, \(t_n\) is the ground truth label for class \(n\), and \(\hat{y}_n\) is the predicted probability for class \(n\).
+
+To guide the binary segmentation head, a combination of the cross-entropy loss and focal loss is used. The focal loss helps to address class imbalance by focusing more on hard-to-classify examples, which is particularly useful for the hard region segmentation task.
+The focal loss is defined as:
+\begin{equation}
+    \mathcal{L}_{Focal} = - \sum_{n=1}^{N} \alpha (1 - \hat{y}_n)^\gamma t_n \log(\hat{y}_n),
+\end{equation}
+where \(\alpha\) is a balancing factor and \(\gamma\) is the focusing parameter.
+
+Finally, for the LLIE module, it receives supervision from the cross-entropy loss computed on the final segmentation output and a weighted combination of the Structural Similarity Index Measure or SSIM \cite {wangImageQualityAssessment2004} and image enhancement losses from Zero-DCE \cite{guoZeroReferenceDeepCurve2020,liLearningEnhanceLowLight2021}.
+
+Following NightLab's \cite{dengNightLabDualLevelArchitecture2022} approach to training the enhancement module, the SSIM loss is utilised to guide the enhancement and penalise structural distortions. The SSIM loss is defined as:
+\begin{equation}
+    \mathcal{L}_{SSIM} = 1 - SSIM(I_{enhanced}, I_{original}),
+\end{equation}
+where \(I_{enhanced}\) is the enhanced image output from the LLIE module and \(I_{original}\) is the original image. SSIM is obtained through:
+\begin{equation}
+    SSIM(x, y) = \frac{(2\mu_x \mu_y + C_1)(2\sigma_{xy} + C_2)}{(\mu_x^2 + \mu_y^2 + C_1)(\sigma_x^2 + \sigma_y^2 + C_2)},
+\end{equation}
+where
 
 \subsection{Optimization and training}
 % Optimizer, learning-rate schedule, augmentations, stop criteria.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Methodology/inference.png}
+    \caption{Inference overview of the proposed method.}
+    \label{fig:inference_overview}
+\end{figure*}
 
 \subsection{Implementation details}
 % Framework, hardware, batch size, run-time considerations.
@@ -491,7 +544,7 @@ The authors would like to thank...
 % Can use something like this to put references on a page
 % by themselves when using endfloat and the captionsoff option.
 \ifCLASSOPTIONcaptionsoff
-  \newpage
+    \newpage
 \fi
 
 
@@ -533,12 +586,12 @@ The authors would like to thank...
 % or if you just want to reserve a space for a photo:
 
 \begin{IEEEbiography}{Michael Shell}
-Biography text here.
+    Biography text here.
 \end{IEEEbiography}
 
 % if you will not have a photo at all:
 \begin{IEEEbiographynophoto}{John Doe}
-Biography text here.
+    Biography text here.
 \end{IEEEbiographynophoto}
 
 % insert where needed to balance the two columns on the last page with
@@ -546,7 +599,7 @@ Biography text here.
 %\newpage
 
 \begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here.
+    Biography text here.
 \end{IEEEbiographynophoto}
 
 % You can push biographies down or up by placing
