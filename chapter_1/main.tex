@@ -22,6 +22,7 @@
 \bibliographystyle{IEEEtran}
 
 \usepackage{cite}
+\usepackage{color}
 
 
 % *** GRAPHICS RELATED PACKAGES ***
@@ -272,7 +273,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Bare Demo of IEEEtran.cls\\ for IEEE Journals}
+\title{Insert my\\ fancy title here}
 %
 %
 % author names and IEEE memberships
@@ -372,13 +373,53 @@
 
 \section{Introduction}
 
-\IEEEPARstart{T}{his} paper improves upon past methods of low-light semantic segmentation by improving upon preexisting models. Current models
+\IEEEPARstart{L}{ow-light} semantic segmentation is a crucial task in computer vision with significant applications in autonomous driving. State-of-the-art segmentation methods such as SegFormer \cite{xieSegFormerSimpleEfficient2021} and DeepLabV3+ \cite{chenEncoderDecoderAtrousSeparable2018} have shown impressive performance in well-lit conditions but often struggle in low-light environments due to challenges such as poor illumination, noise, and reduced contrast. These methods also face difficulties arising from domain shifts between day and night images, as well as the limited availability of annotated low-light datasets for training.
 
-paper addresses [short problem description]. Motivation: explain why the problem matters in practice and research. Provide a succinct statement of challenges (e.g., occlusion, domain shift, limited annotations).
-These people are crazyyyy: \cite{weiDeepRetinexDecomposition2018}
+\textcolor{red}{I can't just write like the above without claims. But leave it as placeholder for a basic introduction}
 
-Sooo what does the paper address?
-- We are investigating low-light semantic segmentation.
+The goal of semantic segmentation is to take a pixel from an image and classify it into one of several categories, such as a pedestrian or a building \cite{zhaoPyramidSceneParsing2017}.
+
+Why do we care about low-light?
+Low-light conditions are prevalent in real-world scenarios. Current semantic segmentation models such as SegFormer \cite{xieSegFormerSimpleEfficient2021}, DeepLabV3+ \cite{chenEncoderDecoderAtrousSeparable2018}, OneFormer \cite{jainOneFormerOneTransformer2022} have shown impressive performance in well-lit conditions but struggle in low-light environments as their evaluation datasets are not designed for testing low-light performance. As a result, these models often fail to generalise to low-light conditions, leading to poor
+
+Introduction structure:
+1. Short 2-3 introduction of the high-level problem area -> low-light semantic segmentation for AVs
+2. What is semantic segmentation
+3. Why do we care about low-light?
+4. What are the existing works in low-light semantic segmentation?
+5. What are the challenges with low-light semantic segmentation?
+6. What motivates our solution to the challenge?
+7. Briefly summarise our approach and contributions.
+8. Paper outline.
+
+Related works structure:
+1. Talk about semantic segmentation works
+2. Talk about low-light image enhancement
+3. Talk about low-light semantic segmentation
+4. Talk about closest works and how we differ. (informs, nightlab)
+
+Methodology structure:
+1. Photo of the architecture
+2. Overview of model's method. The conceptual idea of hard regions and how we enhance them.
+3. Model architecture details.
+3a. LLIE module details
+3b. Hard-region identification details
+3c. Segmentation backbone details
+4. Loss functions
+
+Experiments structure:
+1. Datasets
+2. Evaluation metrics
+3. Training details
+4. Results discussions and quantitative and qualitative analysis against baseline
+5. Ablation studies + analysis of the studies
+
+Conclusion:
+1. Conclusion
+
+Appendix:
+1. More implementation details
+2. More experimental results
 
 Why is this important?
 - Particularly for autonomous driving, low-light conditions are common and challenging for perception systems. Due to financial constraints, it is not always possible to equip vehicles with high-end sensors that perform well in low-light. Therefore, improving low-light semantic segmentation using standard cameras is crucial for safety and reliability.
@@ -413,13 +454,14 @@ Briefly describe the structure: Section~\ref{sec:related} surveys related work, 
 
 \section{Related Work}
 \label{sec:related}
-Organize the literature by categories (classical approaches, deep-learning architectures, loss / metric advances, datasets/benchmarks). Emphasize the most closely related works and contrast them with our approach.
 
-\subsection{Classical methods}
-% Short paragraph and key citations.
+\subsection{Semantic segmentation}
+Current works in low-light semantic segmentation can be broadly categorised into explicit, implicit, and hybrid adaptation methods. Explicit adaptation methodologies directly alter the input image or isolate low-light correction as a preprocessing stage prior to segmentation. These approaches commonly employ techniques such as frequency-domain enhancement, Retinex decomposition or Histogram Equalization to improve image quality and mitigate low-light artefacts explicitly. \textcolor{red}{add citations here} Implicit adaptation methods learn illumination-invariant features through domain adaptation or architectural design, eliminating the need for explicit image enhancement. Unsupervised domain adaptation, adversarial training, and typical supervised training are commonly used in this category. Hybrid adaptation methods integrate explicit and implicit methodologies into a unified framework, where low-light image enhancement modules are jointly trained with segmentation networks to optimise performance on low-light images.
 
-\subsection{Deep learning methods}
-% Architectures and representative recent works.
+\textcolor{red}{Need to add the drawbacks of each type of method.}
+
+
+Early approaches were dominated by explicit adaptation \cite{romeraBridgingDayNight2019, choSemanticSegmentationLow2020}, where these methods focused on extracting as much information from the image as possible without affecting the segmentation network.
 
 \subsection{Closest works}
 % Direct comparisons and distinguishing points.
