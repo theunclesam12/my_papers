@@ -472,12 +472,18 @@ Early approaches were dominated by explicit adaptation \cite{romeraBridgingDayNi
 \label{sec:method}
 \subsection{Overview}
 
-Currently still in testing, but the model can be in two possibles ways:
-1. Train DLV3+ on night images until satisfied. Then in the second stage, use DLV3+'s output to train the hard region enhancement module to identify and enhance harder regions. DLV3+ is either frozen or not frozen during this stage.
-2. Train DLV3+ and hard region enhancement module end-to-end from the start. The hard region enhancement module identifies hard regions based on DLV3+'s performance during training, and enhances them dynamically.
-2a. This way is a bit sus because the hard region enhancement module may not have a good idea of what hard regions are at the start of training.
+The model proposed in this paper is a two-stage low-light image enhancement (LLIE) and semantic segmentation architecture that focuses on identifying and enhancing hard regions within low-light images to improve segmentation performance. Current methods follow the trend of either using a separate LLIE module followed by a segmentation model or training an end-to-end model that combines both tasks. However, these methods often overlook the importance of hard regions within low-light images that are particularly challenging to segment accurately. To address this gap, we introduce a hard-region enhancement module within the LLIE architecture that identifies and enhances these challenging areas, thereby improving the overall segmentation performance.
 
-The essence of the model is the LLIE module is trained to identify hard regions by simultaneously training a hard region segmentation head that predicts a hard region mask based on an error map generated from the downstream segmentation network. This guides the decoder to learn to extract hard regions from the image and this is used to guide the LLIE head to focus on enhancing these regions.
+The key innovation behind our model lies in the hard-region segmentation module, which is trained to predict a hard region mask based on an error map generated from the downstream segmentation network. This mask guides the LLIE module to directly learn from what the segmentation network struggles with, thereby guiding the model to magnify features in these regions.
+
+The LLIE module is designed as a multi-scale parallel attention enhancement module.
+
+% Currently still in testing, but the model can be in two possible ways:
+% 1. Train DLV3+ on night images until satisfied. Then in the second stage, use DLV3+'s output to train the hard region enhancement module to identify and enhance harder regions. DLV3+ is either frozen or not frozen during this stage.
+% 2. Train DLV3+ and hard region enhancement module end-to-end from the start. The hard region enhancement module identifies hard regions based on DLV3+'s performance during training, and enhances them dynamically.
+% 2a. This way is a bit sus because the hard region enhancement module may not have a good idea of what hard regions are at the start of training.
+
+% The essence of the model is the LLIE module is trained to identify hard regions by simultaneously training a hard region segmentation head that predicts a hard region mask based on an error map generated from the downstream segmentation network. This guides the decoder to learn to extract hard regions from the image and this is used to guide the LLIE head to focus on enhancing these regions.
 
 
 1. Figure of the architecture
